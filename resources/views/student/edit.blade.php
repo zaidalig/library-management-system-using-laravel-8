@@ -35,9 +35,11 @@
                         <div class="form-group">
                             <label>Gender</label>
                             <select name="gender" class="form-control">
-                                @if ($student->gneder == 'male')
+                                @if ($student->gender == 'male')
                                     <option value="male" selected>Male</option>
+                                    <option value="female">Female</option>
                                 @else
+                                    <option value="male">Male</option>
                                     <option value="female" selected>Female</option>
                                 @endif
                             </select>
