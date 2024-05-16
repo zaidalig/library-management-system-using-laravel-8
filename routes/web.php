@@ -42,7 +42,7 @@ Route::middleware('auth')->group(function () {
     Route::get('/authors/create', [AutherController::class, 'create'])->name('authors.create');
     Route::get('/authors/edit/{auther}', [AutherController::class, 'edit'])->name('authors.edit');
     Route::post('/authors/update/{id}', [AutherController::class, 'update'])->name('authors.update');
-    Route::post('/authors/delete/{id}', [AutherController::class, 'destroy'])->name('authors.destroy');
+    Route::delete('/authors/delete/{id}', [AutherController::class, 'destroy'])->name('authors.destroy');
     Route::post('/authors/create', [AutherController::class, 'store'])->name('authors.store');
 
     // publisher crud
@@ -50,7 +50,7 @@ Route::middleware('auth')->group(function () {
     Route::get('/publisher/create', [PublisherController::class, 'create'])->name('publisher.create');
     Route::get('/publisher/edit/{publisher}', [PublisherController::class, 'edit'])->name('publisher.edit');
     Route::post('/publisher/update/{id}', [PublisherController::class, 'update'])->name('publisher.update');
-    Route::post('/publisher/delete/{id}', [PublisherController::class, 'destroy'])->name('publisher.destroy');
+    Route::delete('/publisher/delete/{id}', [PublisherController::class, 'destroy'])->name('publisher.destroy');
     Route::post('/publisher/create', [PublisherController::class, 'store'])->name('publisher.store');
 
     // Category CRUD
@@ -58,7 +58,7 @@ Route::middleware('auth')->group(function () {
     Route::get('/category/create', [CategoryController::class, 'create'])->name('category.create');
     Route::get('/category/edit/{category}', [CategoryController::class, 'edit'])->name('category.edit');
     Route::post('/category/update/{id}', [CategoryController::class, 'update'])->name('category.update');
-    Route::post('/category/delete/{id}', [CategoryController::class, 'destroy'])->name('category.destroy');
+    Route::delete('/category/delete/{id}', [CategoryController::class, 'destroy'])->name('category.destroy');
     Route::post('/category/create', [CategoryController::class, 'store'])->name('category.store');
 
 
@@ -69,7 +69,7 @@ Route::middleware('auth')->group(function () {
     Route::get('/book/create', [BookController::class, 'create'])->name('book.create');
     Route::get('/book/edit/{book}', [BookController::class, 'edit'])->name('book.edit');
     Route::post('/book/update/{id}', [BookController::class, 'update'])->name('book.update');
-    Route::post('/book/delete/{id}', [BookController::class, 'destroy'])->name('book.destroy');
+    Route::delete('/book/delete/{id}', [BookController::class, 'destroy'])->name('book.destroy');
     Route::post('/book/create', [BookController::class, 'store'])->name('book.store');
 
     // students CRUD
@@ -77,7 +77,7 @@ Route::middleware('auth')->group(function () {
     Route::get('/student/create', [StudentController::class, 'create'])->name('student.create');
     Route::get('/student/edit/{student}', [StudentController::class, 'edit'])->name('student.edit');
     Route::post('/student/update/{id}', [StudentController::class, 'update'])->name('student.update');
-    Route::post('/student/delete/{id}', [StudentController::class, 'destroy'])->name('student.destroy');
+    Route::delete('/student/delete/{id}', [StudentController::class, 'destroy'])->name('student.destroy');
     Route::post('/student/create', [StudentController::class, 'store'])->name('student.store');
     Route::get('/student/show/{id}', [StudentController::class, 'show'])->name('student.show');
 
@@ -87,7 +87,7 @@ Route::middleware('auth')->group(function () {
     Route::get('/book-issue/create', [BookIssueController::class, 'create'])->name('book_issue.create');
     Route::get('/book-issue/edit/{id}', [BookIssueController::class, 'edit'])->name('book_issue.edit');
     Route::post('/book-issue/update/{id}', [BookIssueController::class, 'update'])->name('book_issue.update');
-    Route::post('/book-issue/delete/{id}', [BookIssueController::class, 'destroy'])->name('book_issue.destroy');
+    Route::delete('/book-issue/delete/{id}', [BookIssueController::class, 'destroy'])->name('book_issue.destroy');
     Route::post('/book-issue/create', [BookIssueController::class, 'store'])->name('book_issue.store');
 
     Route::get('/reports', [ReportsController::class, 'index'])->name('reports');

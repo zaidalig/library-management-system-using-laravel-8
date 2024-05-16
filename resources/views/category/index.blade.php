@@ -29,11 +29,38 @@
                                         <a href="{{ route('category.edit', $category) }}" class="btn btn-success">Edit</a>
                                     </td>
                                     <td class="delete">
-                                        <form action="{{ route('category.destroy', $category) }}" method="post"
-                                            class="form-hidden">
-                                            <button class="btn btn-danger delete-author">Delete</button>
-                                            @csrf
-                                        </form>
+                                        <!-- Button trigger modal -->
+                                        <button type="button" class="btn btn-danger delete-author" data-toggle="modal"
+                                            data-target="#deleteModal{{ $category }}">
+                                            Delete
+                                        </button>
+
+                                        <!-- Modal -->
+                                        <div class="modal fade" id="deleteModal{{ $category }}" tabindex="-1" aria-labelledby="deleteModalLabel"
+                                            aria-hidden="true">
+                                            <div class="modal-dialog">
+                                                <div class="modal-content">
+                                                    <div class="modal-header">
+                                                        <h5 class="modal-title" id="deleteModalLabel">Confirm Deletion</h5>
+                                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                            <span aria-hidden="true">&times;</span>
+                                                        </button>
+                                                    </div>
+                                                    <div class="modal-body">
+                                                        Are you sure you want to delete this author?
+                                                    </div>
+                                                    <div class="modal-footer">
+                                                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                                                        <form action="{{ route('category.destroy', $category) }}" method="post" class="form-hidden">
+                                                            <button type="submit" class="btn btn-danger">Delete</button>
+                                                            @csrf
+                                                            @method('DELETE')
+                                                        </form>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
                                     </td>
                                 </tr>
                             @empty
