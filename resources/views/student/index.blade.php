@@ -33,20 +33,20 @@
                                 <td>{{ $student->phone }}</td>
                                 <td>{{ $student->email }}</td>
                                 <td class="view">
-                                    <button data-sid='{{ $student->id }}>' class="btn btn-primary view-btn">View</button>
+                                    <button data-sid='{{ $student->id }}' class="btn btn-primary view-btn">View</button>
                                 </td>
                                 <td class="edit">
-                                    <a href="{{ route('student.edit', $student) }}>" class="btn btn-success">Edit</a>
+                                    <a href="{{ route('student.edit', $student) }}" class="btn btn-success">Edit</a>
                                 </td>
                                 <td class="delete">
                                     <!-- Button trigger modal -->
-                                    <button type="button" class="btn btn-danger delete-author" data-toggle="modal"
-                                        data-target="#deleteModal{{ $student }}">
+                                    <button type="button" class="btn btn-danger delete-student" data-toggle="modal"
+                                        data-target="#deleteModal{{ $student->id }}">
                                         Delete
                                     </button>
 
                                     <!-- Modal -->
-                                    <div class="modal fade" id="deleteModal{{ $student }}" tabindex="-1"
+                                    <div class="modal fade" id="deleteModal{{ $student->id }}" tabindex="-1"
                                         aria-labelledby="deleteModalLabel" aria-hidden="true">
                                         <div class="modal-dialog">
                                             <div class="modal-content">
@@ -73,7 +73,6 @@
                                             </div>
                                         </div>
                                     </div>
-
                                 </td>
                             </tr>
                         @empty
@@ -87,7 +86,6 @@
                 <div id="modal">
                     <div id="modal-form">
                         <table cellpadding="10px" width="100%">
-
                         </table>
                         <div id="close-btn">X</div>
                     </div>
@@ -98,19 +96,22 @@
 </div>
 <script src="{{ asset('js/jquery-3.6.0.min.js') }}"></script>
 <script type="text/javascript">
-    //Show shudent detail
+    //Show student detail
     $(".view-btn").on("click", function () {
         var student_id = $(this).data("sid");
         $.ajax({
-            url: "http://127.0.0.1:8000/student/show/" + student_id,
-            type: "get",
+            url: "/student/show/" + student_id,
+            type: "GET",
             success: function (student) {
                 console.log(student);
-                form = "<tr><td>Student Name :</td><td><b>" + student['name'] + "</b></td></tr><tr><td>Address :</td><td><b>" + student['address'] + "</b></td></tr><tr><td>Gender :</td><td><b>" + student['gender'] + "</b></td></tr><tr><td>Class :</td><td><b>" + student['class'] + "</b></td></tr><tr><td>Age :</td><td><b>" + student['age'] + "</b></td></tr><tr><td>Phone :</td><td><b>" + student['phone'] + "</b></td></tr><tr><td>Email :</td><td><b>" + student['email'] + "</b></td></tr>";
+                var form = "<tr><td>Student Name :</td><td><b>" + student['name'] + "</b></td></tr><tr><td>Address :</td><td><b>" + student['address'] + "</b></td></tr><tr><td>Gender :</td><td><b>" + student['gender'] + "</b></td></tr><tr><td>Class :</td><td><b>" + student['class'] + "</b></td></tr><tr><td>Age :</td><td><b>" + student['age'] + "</b></td></tr><tr><td>Phone :</td><td><b>" + student['phone'] + "</b></td></tr><tr><td>Email :</td><td><b>" + student['email'] + "</b></td></tr>";
                 console.log(form);
 
                 $("#modal-form table").html(form);
                 $("#modal").show();
+            },
+            error: function(xhr, status, error) {
+                console.error("AJAX Error: ", status, error);
             }
         });
     });

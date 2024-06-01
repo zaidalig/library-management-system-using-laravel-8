@@ -30,9 +30,9 @@
                             <tr>
                                 <td class="id">{{ $book->id }}</td>
                                 <td>{{ $book->name }}</td>
-                                <td>{{ $book->category->name }}</td>
-                                <td>{{ $book->auther->name }}</td>
-                                <td>{{ $book->publisher->name }}</td>
+                                <td>{{ optional($book->category)->name }}</td>
+                                <td>{{ optional($book->author)->name }}</td>
+                                <td>{{ optional($book->publisher)->name }}</td>
                                 <td>
                                     @if ($book->status == 'Y')
                                         <span class='badge badge-success'>Available</span>
@@ -46,12 +46,12 @@
                                 <td class="delete">
                                     <!-- Button trigger modal -->
                                     <button type="button" class="btn btn-danger delete-author" data-toggle="modal"
-                                        data-target="#deleteModal{{ $book }}">
+                                        data-target="#deleteModal{{ $book->id }}">
                                         Delete
                                     </button>
 
                                     <!-- Modal -->
-                                    <div class="modal fade" id="deleteModal{{ $book }}" tabindex="-1"
+                                    <div class="modal fade" id="deleteModal{{ $book->id }}" tabindex="-1"
                                         aria-labelledby="deleteModalLabel" aria-hidden="true">
                                         <div class="modal-dialog">
                                             <div class="modal-content">
@@ -93,4 +93,18 @@
         </div>
     </div>
 </div>
+
+<!-- Custom styles for the modal -->
+<style>
+    /* Ensure the modal backdrop has the correct color and z-index */
+    .modal-backdrop {
+        background-color: rgba(0, 0, 0, 0.5) !important;
+        z-index: 1040 !important;
+    }
+
+    /* Ensure the modal itself is on top of the backdrop */
+    .modal {
+        z-index: 1050 !important;
+    }
+</style>
 @endsection

@@ -86,7 +86,8 @@
                                 </div>
                             @enderror
                         </div>
-                        <input type="submit" name="save" class="btn btn-danger" value="save">
+                        <input type="submit" name="save" class="btn btn-danger" value="Save">
+                        <a href="{{ route('students') }}" class="btn btn-secondary">Cancel</a>
                     </form>
                 </div>
             </div>

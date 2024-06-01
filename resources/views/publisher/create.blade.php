@@ -7,7 +7,7 @@
                 <h2 class="admin-heading">Add Publisher</h2>
             </div>
             <div class="offset-md-7 col-md-2">
-              <a class="add-new" href="{{ route('publishers') }}">All Publishers</a>
+                <a class="add-new" href="{{ route('publishers') }}">All Publishers</a>
             </div>
         </div>
         <div class="row">
@@ -16,7 +16,8 @@
                     @csrf
                     <div class="form-group">
                         <label>Publisher Name</label>
-                        <input type="text" class="form-control @error('name') isinvalid @enderror" placeholder="Publisher Name" name="name" value="{{ old('name') }}" required>
+                        <input type="text" class="form-control @error('name') isinvalid @enderror"
+                            placeholder="Publisher Name" name="name" value="{{ old('name') }}" required>
                         @error('name')
                             <div class="alert alert-danger" role="alert">
                                 {{ $message }}
@@ -24,6 +25,7 @@
                         @enderror
                     </div>
                     <input type="submit" name="save" class="btn btn-danger" value="save" required>
+                    <a href="{{ route('publishers') }}" class="btn btn-secondary">Cancel</a>
                 </form>
             </div>
         </div>

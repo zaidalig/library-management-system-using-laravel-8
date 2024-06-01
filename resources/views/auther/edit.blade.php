@@ -23,6 +23,7 @@
                         @enderror
                     </div>
                     <input type="submit" name="submit" class="btn btn-danger" value="Update" required>
+                    <a href="{{ url('authors') }}" class="btn btn-secondary">Cancel</a>
                 </form>
             </div>
         </div>
