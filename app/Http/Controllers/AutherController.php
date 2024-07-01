@@ -49,7 +49,7 @@ class AutherController extends Controller
     {
         try {
             auther::create($request->validated());
-            return redirect()->route('authors');
+            return redirect()->route('authors')->with('success', 'Author created successfully.');
         } catch (Exception $e) {
             return redirect()->back()->withErrors(['error' => 'An error occurred while storing the author.']);
         }
@@ -85,8 +85,7 @@ class AutherController extends Controller
             $auther = auther::find($id);
             $auther->name = $request->name;
             $auther->save();
-
-            return redirect()->route('authors');
+            return redirect()->route('authors')->with('success', 'Author Updated successfully.');
         } catch (Exception $e) {
             return redirect()->back()->withErrors(['error' => 'An error occurred while updating the author.']);
         }
@@ -100,10 +99,12 @@ class AutherController extends Controller
     public function destroy($id)
     {
         try {
-            auther::findorfail($id)->delete();
-            return redirect()->route('authors');
+            $author = auther::findOrFail($id);
+            $author->delete();
+            return redirect()->route('authors')->with('success', 'Author deleted successfully.');
         } catch (Exception $e) {
-            return redirect()->back()->withErrors(['error' => 'An error occurred while deleting the author.']);
+            return redirect()->back()->withErrors(['error', 'An error occurred while deleting the author.']);
         }
     }
+
 }

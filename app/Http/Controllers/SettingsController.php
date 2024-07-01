@@ -37,7 +37,7 @@ class SettingsController extends Controller
             $setting->return_days = $request->return_days;
             $setting->fine = $request->fine;
             $setting->save();
-            return redirect()->route('settings');
+            return redirect()->route('settings')->with('success', 'Settings updated successfully.');
         } catch (Exception $e) {
             return redirect()->back()->withErrors(['error' => 'An error occurred while updating the settings.']);
         }

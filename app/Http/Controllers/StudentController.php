@@ -49,7 +49,7 @@ class StudentController extends Controller
     {
         try {
             student::create($request->validated());
-            return redirect()->route('students');
+            return redirect()->route('students')->with('success', 'Student created successfully.');
         } catch (Exception $e) {
             return redirect()->back()->withErrors(['error' => 'An error occurred while storing the student.']);
         }
@@ -106,7 +106,7 @@ class StudentController extends Controller
             $student->phone = $request->phone;
             $student->email = $request->email;
             $student->save();
-            return redirect()->route('students');
+            return redirect()->route('students')->with('success', 'Student updated successfully.');
         } catch (Exception $e) {
             return redirect()->back()->withErrors(['error' => 'An error occurred while updating the student.']);
         }
@@ -122,7 +122,7 @@ class StudentController extends Controller
     {
         try {
             student::find($id)->delete();
-            return redirect()->route('students');
+            return redirect()->route('students')->with('success', 'Student deleted successfully.');
         } catch (Exception $e) {
             return redirect()->back()->withErrors(['error' => 'An error occurred while deleting the student.']);
         }

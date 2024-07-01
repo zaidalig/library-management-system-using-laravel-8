@@ -20,7 +20,7 @@
                 @endif
                 <form class="yourform" action="{{ route('book.update', $book->id) }}" method="post" autocomplete="off">
                     @csrf
-                    @method('PUT')
+                    @method('POST')
                     <div class="form-group">
                         <label>Book Name</label>
                         <input type="text" class="form-control @error('name') is-invalid @enderror"

@@ -10,6 +10,11 @@
                 <a class="add-new" href="{{ route('publisher.create') }}">Add Publisher</a>
             </div>
         </div>
+        @if (session('success'))
+            <div class="alert alert-success">
+                {{ session('success') }}
+            </div>
+        @endif
         @if ($errors->any())
             <div class="alert alert-danger">
                 <ul>

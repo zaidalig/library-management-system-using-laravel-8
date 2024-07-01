@@ -69,7 +69,7 @@ class BookIssueController extends Controller
             $book = book::find($request->book_id);
             $book->status = 'N';
             $book->save();
-            return redirect()->route('book_issued');
+            return redirect()->route('book_issued')->with('success', 'Book issued successfully.');
         } catch (Exception $e) {
             return redirect()->back()->withErrors(['error' => 'An error occurred while issuing the book.']);
         }
@@ -115,7 +115,7 @@ class BookIssueController extends Controller
             $bookk = book::find($book->book_id);
             $bookk->status = 'Y';
             $bookk->save();
-            return redirect()->route('book_issued');
+            return redirect()->route('book_issued')->with('success', 'Record updated successfully.');
         } catch (Exception $e) {
             return redirect()->back()->withErrors(['error' => 'An error occurred while updating the book issue.']);
         }
@@ -131,7 +131,7 @@ class BookIssueController extends Controller
     {
         try {
             book_issue::find($id)->delete();
-            return redirect()->route('book_issued');
+            return redirect()->route('book_issued')->with('success', 'Record deleted successfully.');
         } catch (Exception $e) {
             return redirect()->back()->withErrors(['error' => 'An error occurred while deleting the book issue.']);
         }

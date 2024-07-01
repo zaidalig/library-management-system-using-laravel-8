@@ -49,7 +49,7 @@ class CategoryController extends Controller
     {
         try {
             category::create($request->validated());
-            return redirect()->route('categories');
+            return redirect()->route('categories')->with('success', 'Category created successfully.');
         } catch (Exception $e) {
             return redirect()->back()->withErrors(['error' => 'An error occurred while storing the category.']);
         }
@@ -85,8 +85,7 @@ class CategoryController extends Controller
             $category = category::find($id);
             $category->name = $request->name;
             $category->save();
-
-            return redirect()->route('categories');
+            return redirect()->route('categories')->with('success', 'Category updated successfully.');
         } catch (Exception $e) {
             return redirect()->back()->withErrors(['error' => 'An error occurred while updating the category.']);
         }
@@ -101,7 +100,7 @@ class CategoryController extends Controller
     {
         try {
             category::find($id)->delete();
-            return redirect()->route('categories');
+            return redirect()->route('categories')->with('success', 'Category deleted successfully.');
         } catch (Exception $e) {
             return redirect()->back()->withErrors(['error' => 'An error occurred while deleting the category.']);
         }

@@ -49,7 +49,7 @@ class PublisherController extends Controller
     {
         try {
             publisher::create($request->validated());
-            return redirect()->route('publishers');
+            return redirect()->route('publishers')->with('success', 'Publisher created successfully.');
         } catch (Exception $e) {
             return redirect()->back()->withErrors(['error' => 'An error occurred while storing the publisher.']);
         }
@@ -85,7 +85,7 @@ class PublisherController extends Controller
             $publisher = publisher::find($id);
             $publisher->name = $request->name;
             $publisher->save();
-            return redirect()->route('publishers');
+            return redirect()->route('publishers')->with('success', 'Publisher updated successfully.');
         } catch (Exception $e) {
             return redirect()->back()->withErrors(['error' => 'An error occurred while updating the publisher.']);
         }
@@ -100,7 +100,7 @@ class PublisherController extends Controller
     {
         try {
             publisher::find($id)->delete();
-            return redirect()->route('publishers');
+            return redirect()->route('publishers')->with('success', 'Publisher deleted successfully.');
         } catch (Exception $e) {
             return redirect()->back()->withErrors(['error' => 'An error occurred while deleting the publisher.']);
         }

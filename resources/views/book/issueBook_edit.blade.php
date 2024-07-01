@@ -66,7 +66,7 @@
                     @if ($book->issue_status == 'N')
                         <form action="{{ route('book_issue.update', $book->id) }}" method="post" autocomplete="off">
                             @csrf
-                            @method('PUT')
+                            @method('POST')
                             <input type='submit' class='btn btn-danger' name='save' value='Return Book'>
                             <a href="{{ url('book_issue') }}" class="btn btn-secondary">Cancel</a>
                         </form>

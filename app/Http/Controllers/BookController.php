@@ -58,7 +58,7 @@ class BookController extends Controller
             book::create($request->validated() + [
                 'status' => 'Y'
             ]);
-            return redirect()->route('books');
+            return redirect()->route('books')->with('success', 'Book created successfully.');
         } catch (Exception $e) {
             return redirect()->back()->withErrors(['error' => 'An error occurred while storing the book.']);
         }
@@ -100,7 +100,7 @@ class BookController extends Controller
             $book->category_id = $request->category_id;
             $book->publisher_id = $request->publisher_id;
             $book->save();
-            return redirect()->route('books');
+            return redirect()->route('books')->with('success', 'Book updated successfully.');
         } catch (Exception $e) {
             return redirect()->back()->withErrors(['error' => 'An error occurred while updating the book.']);
         }
@@ -116,7 +116,7 @@ class BookController extends Controller
     {
         try {
             book::find($id)->delete();
-            return redirect()->route('books');
+            return redirect()->route('books')->with('success', 'Book deleted successfully.');
         } catch (Exception $e) {
             return redirect()->back()->withErrors(['error' => 'An error occurred while deleting the book.']);
         }
