@@ -10,6 +10,15 @@
         </div>
         <div class="row">
             <div class="offset-md-3 col-md-6">
+                @if ($errors->any())
+                    <div class="alert alert-danger">
+                        <ul>
+                            @foreach ($errors->all() as $error)
+                                <li>{{ $error }}</li>
+                            @endforeach
+                        </ul>
+                    </div>
+                @endif
                 <div class="yourform">
                     <table cellpadding="10px" width="90%" style="margin: 0 0 20px;">
                         <tr>
@@ -57,6 +66,7 @@
                     @if ($book->issue_status == 'N')
                         <form action="{{ route('book_issue.update', $book->id) }}" method="post" autocomplete="off">
                             @csrf
+                            @method('POST')
                             <input type='submit' class='btn btn-danger' name='save' value='Return Book'>
                             <a href="{{ url('book_issue') }}" class="btn btn-secondary">Cancel</a>
                         </form>

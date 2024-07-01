@@ -10,6 +10,20 @@
                 <a class="add-new" href="{{ route('book_issue.create') }}">Add Book Issue</a>
             </div>
         </div>
+        @if (session('success'))
+            <div class="alert alert-success">
+                {{ session('success') }}
+            </div>
+        @endif
+        @if ($errors->any())
+            <div class="alert alert-danger">
+                <ul>
+                    @foreach ($errors->all() as $error)
+                        <li>{{ $error }}</li>
+                    @endforeach
+                </ul>
+            </div>
+        @endif
         <div class="row">
             <div class="col-md-12">
                 <table class="content-table">
@@ -28,7 +42,7 @@
                     <tbody>
                         @forelse ($books as $book)
                             <tr
-                                style='@if (date('Y-m-d') > $book->return_date->format('d-m-Y') && $book->issue_status == 'N') ) background:rgba(255,0,0,0.2) @endif'>
+                                style='@if (date('Y-m-d') > $book->return_date->format('d-m-Y') && $book->issue_status == 'N') background:rgba(255,0,0,0.2) @endif'>
                                 <td>{{ $book->id }}</td>
                                 <td>{{ $book->student->name }}</td>
                                 <td>{{ $book->book->name }}</td>
@@ -73,9 +87,9 @@
                                                         data-dismiss="modal">Cancel</button>
                                                     <form action="{{ route('book_issue.destroy', $book) }}" method="post"
                                                         class="form-hidden">
-                                                        <button type="submit" class="btn btn-danger">Delete</button>
                                                         @csrf
                                                         @method('DELETE')
+                                                        <button type="submit" class="btn btn-danger">Delete</button>
                                                     </form>
                                                 </div>
                                             </div>

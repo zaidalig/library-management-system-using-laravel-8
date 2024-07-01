@@ -11,6 +11,20 @@
                 <a class="add-new" href="{{ route('book.create') }}">Add Book</a>
             </div>
         </div>
+        @if ($errors->any())
+            <div class="alert alert-danger">
+                <ul>
+                    @foreach ($errors->all() as $error)
+                        <li>{{ $error }}</li>
+                    @endforeach
+                </ul>
+            </div>
+        @endif
+        @if (session('success'))
+            <div class="alert alert-success">
+                {{ session('success') }}
+            </div>
+        @endif
         <div class="row">
             <div class="col-md-12">
                 <div class="message"></div>
@@ -70,9 +84,9 @@
                                                         data-dismiss="modal">Cancel</button>
                                                     <form action="{{ route('book.destroy', $book) }}" method="post"
                                                         class="form-hidden">
-                                                        <button type="submit" class="btn btn-danger">Delete</button>
                                                         @csrf
                                                         @method('DELETE')
+                                                        <button type="submit" class="btn btn-danger">Delete</button>
                                                     </form>
                                                 </div>
                                             </div>

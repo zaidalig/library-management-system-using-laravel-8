@@ -12,11 +12,20 @@
         </div>
         <div class="row">
             <div class="offset-md-3 col-md-6">
+                @if ($errors->any())
+                    <div class="alert alert-danger">
+                        <ul>
+                            @foreach ($errors->all() as $error)
+                                <li>{{ $error }}</li>
+                            @endforeach
+                        </ul>
+                    </div>
+                @endif
                 <form class="yourform" action="{{ route('publisher.store') }}" method="post" autocomplete="off">
                     @csrf
                     <div class="form-group">
                         <label>Publisher Name</label>
-                        <input type="text" class="form-control @error('name') isinvalid @enderror"
+                        <input type="text" class="form-control @error('name') is-invalid @enderror"
                             placeholder="Publisher Name" name="name" value="{{ old('name') }}" required>
                         @error('name')
                             <div class="alert alert-danger" role="alert">
@@ -24,7 +33,7 @@
                             </div>
                         @enderror
                     </div>
-                    <input type="submit" name="save" class="btn btn-danger" value="save" required>
+                    <input type="submit" name="save" class="btn btn-danger" value="Save">
                     <a href="{{ route('publishers') }}" class="btn btn-secondary">Cancel</a>
                 </form>
             </div>

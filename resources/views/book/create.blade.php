@@ -12,11 +12,20 @@
         </div>
         <div class="row">
             <div class="offset-md-3 col-md-6">
+                @if ($errors->any())
+                    <div class="alert alert-danger">
+                        <ul>
+                            @foreach ($errors->all() as $error)
+                                <li>{{ $error }}</li>
+                            @endforeach
+                        </ul>
+                    </div>
+                @endif
                 <form class="yourform" action="{{ route('book.store') }}" method="post" autocomplete="off">
                     @csrf
                     <div class="form-group">
                         <label>Book Name</label>
-                        <input type="text" class="form-control @error('name') isinvalid @enderror"
+                        <input type="text" class="form-control @error('name') is-invalid @enderror"
                             placeholder="Book Name" name="name" value="{{ old('name') }}" required>
                         @error('name')
                             <div class="alert alert-danger" role="alert">
@@ -26,7 +35,7 @@
                     </div>
                     <div class="form-group">
                         <label>Category</label>
-                        <select class="form-control @error('category_id') isinvalid @enderror " name="category_id"
+                        <select class="form-control @error('category_id') is-invalid @enderror" name="category_id"
                             required>
                             <option value="">Select Category</option>
                             @foreach ($categories as $category)
@@ -41,10 +50,10 @@
                     </div>
                     <div class="form-group">
                         <label>Author</label>
-                        <select class="form-control @error('auther_id') isinvalid @enderror " name="auther_id" required>
+                        <select class="form-control @error('auther_id') is-invalid @enderror" name="auther_id" required>
                             <option value="">Select Author</option>
                             @foreach ($authors as $author)
-                                <option value='{{ $author->id }}'>{{ $author->name }}</option>";
+                                <option value='{{ $author->id }}'>{{ $author->name }}</option>
                             @endforeach
                         </select>
                         @error('auther_id')
@@ -55,11 +64,11 @@
                     </div>
                     <div class="form-group">
                         <label>Publisher</label>
-                        <select class="form-control @error('publisher_id') isinvalid @enderror " name="publisher_id"
+                        <select class="form-control @error('publisher_id') is-invalid @enderror" name="publisher_id"
                             required>
                             <option value="">Select Publisher</option>
                             @foreach ($publishers as $publisher)
-                                <option value='{{ $publisher->id }}'>{{ $publisher->name }}</option>";
+                                <option value='{{ $publisher->id }}'>{{ $publisher->name }}</option>
                             @endforeach
                         </select>
                         @error('publisher_id')
@@ -68,12 +77,11 @@
                             </div>
                         @enderror
                     </div>
-                    <input type="submit" name="save" class="btn btn-danger" value="save" required>
+                    <input type="submit" name="save" class="btn btn-danger" value="save">
                     <a href="{{ route('books') }}" class="btn btn-secondary">Cancel</a>
                 </form>
             </div>
         </div>
     </div>
 </div>
-
 @endsection

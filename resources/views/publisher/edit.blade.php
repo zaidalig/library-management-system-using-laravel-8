@@ -12,17 +12,18 @@
                 <form class="yourform" action="{{ route('publisher.update', $publisher->id) }}" method="post"
                     autocomplete="off">
                     @csrf
+                    @method('POST')
                     <div class="form-group">
                         <label>Publisher Name</label>
-                        <input type="text" class="form-control @error('name') isinvalid @enderror" name="name"
-                            value="{{ $publisher->name }}" required>
+                        <input type="text" class="form-control @error('name') is-invalid @enderror" name="name"
+                            value="{{ old('name', $publisher->name) }}" required>
                         @error('name')
                             <div class="alert alert-danger" role="alert">
                                 {{ $message }}
                             </div>
                         @enderror
                     </div>
-                    <input type="submit" name="submit" class="btn btn-danger" value="Update" required>
+                    <input type="submit" name="submit" class="btn btn-danger" value="Update">
                     <a href="{{ route('publishers') }}" class="btn btn-secondary">Cancel</a>
                 </form>
             </div>

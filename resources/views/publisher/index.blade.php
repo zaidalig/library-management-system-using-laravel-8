@@ -10,6 +10,20 @@
                 <a class="add-new" href="{{ route('publisher.create') }}">Add Publisher</a>
             </div>
         </div>
+        @if (session('success'))
+            <div class="alert alert-success">
+                {{ session('success') }}
+            </div>
+        @endif
+        @if ($errors->any())
+            <div class="alert alert-danger">
+                <ul>
+                    @foreach ($errors->all() as $error)
+                        <li>{{ $error }}</li>
+                    @endforeach
+                </ul>
+            </div>
+        @endif
         <div class="row">
             <div class="col-md-12">
                 <div class="message"></div>
@@ -31,12 +45,12 @@
                                 <td class="delete">
                                     <!-- Button trigger modal -->
                                     <button type="button" class="btn btn-danger delete-author" data-toggle="modal"
-                                        data-target="#deleteModal{{ $publisher }}">
+                                        data-target="#deleteModal{{ $publisher->id }}">
                                         Delete
                                     </button>
 
                                     <!-- Modal -->
-                                    <div class="modal fade" id="deleteModal{{ $publisher }}" tabindex="-1"
+                                    <div class="modal fade" id="deleteModal{{ $publisher->id }}" tabindex="-1"
                                         aria-labelledby="deleteModalLabel" aria-hidden="true">
                                         <div class="modal-dialog">
                                             <div class="modal-content">
@@ -53,17 +67,16 @@
                                                 <div class="modal-footer">
                                                     <button type="button" class="btn btn-secondary"
                                                         data-dismiss="modal">Cancel</button>
-                                                    <form action="{{ route('publisher.destroy', $publisher) }}" method="post"
-                                                        class="form-hidden">
-                                                        <button type="submit" class="btn btn-danger">Delete</button>
+                                                    <form action="{{ route('publisher.destroy', $publisher->id) }}"
+                                                        method="post" class="form-hidden">
                                                         @csrf
                                                         @method('DELETE')
+                                                        <button type="submit" class="btn btn-danger">Delete</button>
                                                     </form>
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
-
                                 </td>
                             </tr>
                         @empty
@@ -79,4 +92,3 @@
     </div>
 </div>
 @endsection
-
