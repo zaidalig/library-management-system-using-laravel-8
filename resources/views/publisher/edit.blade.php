@@ -9,20 +9,30 @@
         </div>
         <div class="row">
             <div class="offset-md-3 col-md-6">
+                @if ($errors->any())
+                    <div class="alert alert-danger">
+                        <ul>
+                            @foreach ($errors->all() as $error)
+                                <li>{{ $error }}</li>
+                            @endforeach
+                        </ul>
+                    </div>
+                @endif
                 <form class="yourform" action="{{ route('publisher.update', $publisher->id) }}" method="post"
                     autocomplete="off">
                     @csrf
+                    @method('PUT')
                     <div class="form-group">
                         <label>Publisher Name</label>
-                        <input type="text" class="form-control @error('name') isinvalid @enderror" name="name"
-                            value="{{ $publisher->name }}" required>
+                        <input type="text" class="form-control @error('name') is-invalid @enderror" name="name"
+                            value="{{ old('name', $publisher->name) }}" required>
                         @error('name')
                             <div class="alert alert-danger" role="alert">
                                 {{ $message }}
                             </div>
                         @enderror
                     </div>
-                    <input type="submit" name="submit" class="btn btn-danger" value="Update" required>
+                    <input type="submit" name="submit" class="btn btn-danger" value="Update">
                     <a href="{{ route('publishers') }}" class="btn btn-secondary">Cancel</a>
                 </form>
             </div>

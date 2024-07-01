@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\auther;
 use App\Http\Requests\StoreautherRequest;
 use App\Http\Requests\UpdateautherRequest;
+use Exception;
 
 class AutherController extends Controller
 {
@@ -15,9 +16,13 @@ class AutherController extends Controller
      */
     public function index()
     {
-        return view('auther.index', [
-            'authors' => auther::Paginate(5)
-        ]);
+        try {
+            return view('auther.index', [
+                'authors' => auther::Paginate(5)
+            ]);
+        } catch (Exception $e) {
+            return redirect()->back()->withErrors(['error' => 'An error occurred while fetching authors.']);
+        }
     }
 
     /**
@@ -27,7 +32,11 @@ class AutherController extends Controller
      */
     public function create()
     {
-        return view('auther.create');
+        try {
+            return view('auther.create');
+        } catch (Exception $e) {
+            return redirect()->back()->withErrors(['error' => 'An error occurred while preparing to create an author.']);
+        }
     }
 
     /**
@@ -38,10 +47,14 @@ class AutherController extends Controller
      */
     public function store(StoreautherRequest $request)
     {
-        auther::create($request->validated());
-
-        return redirect()->route('authors');
+        try {
+            auther::create($request->validated());
+            return redirect()->route('authors');
+        } catch (Exception $e) {
+            return redirect()->back()->withErrors(['error' => 'An error occurred while storing the author.']);
+        }
     }
+
     /**
      * Show the form for editing the specified resource.
      *
@@ -50,9 +63,13 @@ class AutherController extends Controller
      */
     public function edit(auther $auther)
     {
-        return view('auther.edit', [
-            'auther' => $auther
-        ]);
+        try {
+            return view('auther.edit', [
+                'auther' => $auther
+            ]);
+        } catch (Exception $e) {
+            return redirect()->back()->withErrors(['error' => 'An error occurred while preparing to edit the author.']);
+        }
     }
 
     /**
@@ -64,11 +81,15 @@ class AutherController extends Controller
      */
     public function update(UpdateautherRequest $request, $id)
     {
-        $auther = auther::find($id);
-        $auther->name = $request->name;
-        $auther->save();
+        try {
+            $auther = auther::find($id);
+            $auther->name = $request->name;
+            $auther->save();
 
-        return redirect()->route('authors');
+            return redirect()->route('authors');
+        } catch (Exception $e) {
+            return redirect()->back()->withErrors(['error' => 'An error occurred while updating the author.']);
+        }
     }
 
     /**
@@ -78,7 +99,11 @@ class AutherController extends Controller
      */
     public function destroy($id)
     {
-        auther::findorfail($id)->delete();
-        return redirect()->route('authors');
+        try {
+            auther::findorfail($id)->delete();
+            return redirect()->route('authors');
+        } catch (Exception $e) {
+            return redirect()->back()->withErrors(['error' => 'An error occurred while deleting the author.']);
+        }
     }
 }

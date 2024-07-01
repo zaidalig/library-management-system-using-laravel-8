@@ -5,7 +5,7 @@ namespace App\Http\Controllers\auth;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Symfony\Component\HttpFoundation\Request as HttpFoundationRequest;
+use Exception;
 
 class LoginController extends Controller
 {
@@ -16,10 +16,14 @@ class LoginController extends Controller
             'password' => "required",
         ]);
 
-        if (Auth::attempt(['username' => $request->username, 'password' => $request->password])) {
-            return redirect('/dashboard');
-        } else {
-            return redirect()->back()->withErrors(['username' => 'Invalid username or password']);
+        try {
+            if (Auth::attempt(['username' => $request->username, 'password' => $request->password])) {
+                return redirect('/dashboard');
+            } else {
+                return redirect()->back()->withErrors(['username' => 'Invalid username or password']);
+            }
+        } catch (Exception $e) {
+            return redirect()->back()->withErrors(['error' => 'An error occurred while attempting to login.']);
         }
     }
 
@@ -31,13 +35,17 @@ class LoginController extends Controller
      */
     public function logout(Request $request)
     {
-        Auth::logout();
+        try {
+            Auth::logout();
 
-        $request->session()->invalidate();
+            $request->session()->invalidate();
 
-        $request->session()->regenerateToken();
+            $request->session()->regenerateToken();
 
-        return redirect('/');
+            return redirect('/');
+        } catch (Exception $e) {
+            return redirect()->back()->withErrors(['error' => 'An error occurred while attempting to logout.']);
+        }
     }
 
     // change_password method
@@ -48,14 +56,18 @@ class LoginController extends Controller
             'password' => 'required|confirmed',
         ]);
 
-        $user = Auth::user();
+        try {
+            $user = Auth::user();
 
-        if (password_verify($request->c_password, $user->password)) {
-            $user->password = bcrypt($request->password);
-            $user->save();
-            return redirect()->back()->with('success', 'Password changed successfully');
-        } else {
-            return redirect()->back()->withErrors(['c_password' => 'Old password is incorrect']);
+            if (password_verify($request->c_password, $user->password)) {
+                $user->password = bcrypt($request->password);
+                $user->save();
+                return redirect()->back()->with('success', 'Password changed successfully');
+            } else {
+                return redirect()->back()->withErrors(['c_password' => 'Old password is incorrect']);
+            }
+        } catch (Exception $e) {
+            return redirect()->back()->withErrors(['error' => 'An error occurred while attempting to change the password.']);
         }
     }
 }

@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\publisher;
 use App\Http\Requests\StorepublisherRequest;
 use App\Http\Requests\UpdatepublisherRequest;
+use Exception;
 
 class PublisherController extends Controller
 {
@@ -15,9 +16,13 @@ class PublisherController extends Controller
      */
     public function index()
     {
-        return view('publisher.index', [
-            'publishers' => publisher::Paginate(5)
-        ]);
+        try {
+            return view('publisher.index', [
+                'publishers' => publisher::Paginate(5)
+            ]);
+        } catch (Exception $e) {
+            return redirect()->back()->withErrors(['error' => 'An error occurred while fetching publishers.']);
+        }
     }
 
     /**
@@ -27,7 +32,11 @@ class PublisherController extends Controller
      */
     public function create()
     {
-        return view('publisher.create');
+        try {
+            return view('publisher.create');
+        } catch (Exception $e) {
+            return redirect()->back()->withErrors(['error' => 'An error occurred while preparing to create a publisher.']);
+        }
     }
 
     /**
@@ -38,8 +47,12 @@ class PublisherController extends Controller
      */
     public function store(StorepublisherRequest $request)
     {
-        publisher::create($request->validated());
-        return redirect()->route('publishers');
+        try {
+            publisher::create($request->validated());
+            return redirect()->route('publishers');
+        } catch (Exception $e) {
+            return redirect()->back()->withErrors(['error' => 'An error occurred while storing the publisher.']);
+        }
     }
 
     /**
@@ -50,9 +63,13 @@ class PublisherController extends Controller
      */
     public function edit(publisher $publisher)
     {
-        return view('publisher.edit', [
-            'publisher' => $publisher
-        ]);
+        try {
+            return view('publisher.edit', [
+                'publisher' => $publisher
+            ]);
+        } catch (Exception $e) {
+            return redirect()->back()->withErrors(['error' => 'An error occurred while preparing to edit the publisher.']);
+        }
     }
 
     /**
@@ -64,11 +81,14 @@ class PublisherController extends Controller
      */
     public function update(UpdatepublisherRequest $request, $id)
     {
-        $publisher = publisher::find($id);
-        $publisher->name = $request->name;
-        $publisher->save();
-
-        return redirect()->route('publishers');
+        try {
+            $publisher = publisher::find($id);
+            $publisher->name = $request->name;
+            $publisher->save();
+            return redirect()->route('publishers');
+        } catch (Exception $e) {
+            return redirect()->back()->withErrors(['error' => 'An error occurred while updating the publisher.']);
+        }
     }
 
     /**
@@ -78,7 +98,11 @@ class PublisherController extends Controller
      */
     public function destroy($id)
     {
-        publisher::find($id)->delete();
-        return redirect()->route('publishers');
+        try {
+            publisher::find($id)->delete();
+            return redirect()->route('publishers');
+        } catch (Exception $e) {
+            return redirect()->back()->withErrors(['error' => 'An error occurred while deleting the publisher.']);
+        }
     }
 }

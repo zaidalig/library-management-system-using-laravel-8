@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\student;
 use App\Http\Requests\StorestudentRequest;
 use App\Http\Requests\UpdatestudentRequest;
+use Exception;
 
 class StudentController extends Controller
 {
@@ -15,9 +16,13 @@ class StudentController extends Controller
      */
     public function index()
     {
-        return view('student.index', [
-            'students' => student::Paginate(5)
-        ]);
+        try {
+            return view('student.index', [
+                'students' => student::Paginate(5)
+            ]);
+        } catch (Exception $e) {
+            return redirect()->back()->withErrors(['error' => 'An error occurred while fetching students.']);
+        }
     }
 
     /**
@@ -27,7 +32,11 @@ class StudentController extends Controller
      */
     public function create()
     {
-        return view('student.create');
+        try {
+            return view('student.create');
+        } catch (Exception $e) {
+            return redirect()->back()->withErrors(['error' => 'An error occurred while preparing to create a student.']);
+        }
     }
 
     /**
@@ -38,9 +47,12 @@ class StudentController extends Controller
      */
     public function store(StorestudentRequest $request)
     {
-        student::create($request->validated());
-
-        return redirect()->route('students');
+        try {
+            student::create($request->validated());
+            return redirect()->route('students');
+        } catch (Exception $e) {
+            return redirect()->back()->withErrors(['error' => 'An error occurred while storing the student.']);
+        }
     }
 
     /**
@@ -51,8 +63,12 @@ class StudentController extends Controller
      */
     public function show($id)
     {
-        $student = student::find($id)->first();
-        return $student;
+        try {
+            $student = student::find($id)->first();
+            return $student;
+        } catch (Exception $e) {
+            return redirect()->back()->withErrors(['error' => 'An error occurred while fetching the student.']);
+        }
     }
 
     /**
@@ -63,9 +79,13 @@ class StudentController extends Controller
      */
     public function edit(student $student)
     {
-        return view('student.edit', [
-            'student' => $student
-        ]);
+        try {
+            return view('student.edit', [
+                'student' => $student
+            ]);
+        } catch (Exception $e) {
+            return redirect()->back()->withErrors(['error' => 'An error occurred while preparing to edit the student.']);
+        }
     }
 
     /**
@@ -76,17 +96,20 @@ class StudentController extends Controller
      */
     public function update(UpdatestudentRequest $request, $id)
     {
-        $student = student::find($id);
-        $student->name = $request->name;
-        $student->address = $request->address;
-        $student->gender = $request->gender;
-        $student->class = $request->class;
-        $student->age = $request->age;
-        $student->phone = $request->phone;
-        $student->email = $request->email;
-        $student->save();
-
-        return redirect()->route('students');
+        try {
+            $student = student::find($id);
+            $student->name = $request->name;
+            $student->address = $request->address;
+            $student->gender = $request->gender;
+            $student->class = $request->class;
+            $student->age = $request->age;
+            $student->phone = $request->phone;
+            $student->email = $request->email;
+            $student->save();
+            return redirect()->route('students');
+        } catch (Exception $e) {
+            return redirect()->back()->withErrors(['error' => 'An error occurred while updating the student.']);
+        }
     }
 
     /**
@@ -97,7 +120,11 @@ class StudentController extends Controller
      */
     public function destroy($id)
     {
-        student::find($id)->delete();
-        return redirect()->route('students');
+        try {
+            student::find($id)->delete();
+            return redirect()->route('students');
+        } catch (Exception $e) {
+            return redirect()->back()->withErrors(['error' => 'An error occurred while deleting the student.']);
+        }
     }
 }

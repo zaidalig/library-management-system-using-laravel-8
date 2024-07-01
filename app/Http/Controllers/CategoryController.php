@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\category;
 use App\Http\Requests\StorecategoryRequest;
 use App\Http\Requests\UpdatecategoryRequest;
+use Exception;
 
 class CategoryController extends Controller
 {
@@ -15,10 +16,13 @@ class CategoryController extends Controller
      */
     public function index()
     {
-        return view('category.index', [
-            'categories' => category::Paginate(5)
-        ]);
-
+        try {
+            return view('category.index', [
+                'categories' => category::Paginate(5)
+            ]);
+        } catch (Exception $e) {
+            return redirect()->back()->withErrors(['error' => 'An error occurred while fetching categories.']);
+        }
     }
 
     /**
@@ -28,7 +32,11 @@ class CategoryController extends Controller
      */
     public function create()
     {
-        return view('category.create');
+        try {
+            return view('category.create');
+        } catch (Exception $e) {
+            return redirect()->back()->withErrors(['error' => 'An error occurred while preparing to create a category.']);
+        }
     }
 
     /**
@@ -39,8 +47,12 @@ class CategoryController extends Controller
      */
     public function store(StorecategoryRequest $request)
     {
-        category::create($request->validated());
-        return redirect()->route('categories');
+        try {
+            category::create($request->validated());
+            return redirect()->route('categories');
+        } catch (Exception $e) {
+            return redirect()->back()->withErrors(['error' => 'An error occurred while storing the category.']);
+        }
     }
 
     /**
@@ -51,9 +63,13 @@ class CategoryController extends Controller
      */
     public function edit(category $category)
     {
-        return view('category.edit', [
-            'category' => $category
-        ]);
+        try {
+            return view('category.edit', [
+                'category' => $category
+            ]);
+        } catch (Exception $e) {
+            return redirect()->back()->withErrors(['error' => 'An error occurred while preparing to edit the category.']);
+        }
     }
 
     /**
@@ -65,11 +81,15 @@ class CategoryController extends Controller
      */
     public function update(UpdatecategoryRequest $request, $id)
     {
-        $category = category::find($id);
-        $category->name = $request->name;
-        $category->save();
+        try {
+            $category = category::find($id);
+            $category->name = $request->name;
+            $category->save();
 
-        return redirect()->route('categories');
+            return redirect()->route('categories');
+        } catch (Exception $e) {
+            return redirect()->back()->withErrors(['error' => 'An error occurred while updating the category.']);
+        }
     }
 
     /**
@@ -79,7 +99,11 @@ class CategoryController extends Controller
      */
     public function destroy($id)
     {
-        category::find($id)->delete();
-        return redirect()->route('categories');
+        try {
+            category::find($id)->delete();
+            return redirect()->route('categories');
+        } catch (Exception $e) {
+            return redirect()->back()->withErrors(['error' => 'An error occurred while deleting the category.']);
+        }
     }
 }

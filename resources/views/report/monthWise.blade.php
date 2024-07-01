@@ -9,6 +9,16 @@
             </div>
             <div class="row">
                 <div class="offset-md-4 col-md-4">
+                    @if ($errors->any())
+                        <div class="alert alert-danger">
+                            <ul>
+                                @foreach ($errors->all() as $error)
+                                    <li>{{ $error }}</li>
+                                @endforeach
+                            @endforeach
+                        </ul>
+                    </div>
+                    @endif
                     <form class="yourform mb-5" action="{{ route('reports.month_wise_generate') }}" method="post">
                         @csrf
                         <div class="form-group">

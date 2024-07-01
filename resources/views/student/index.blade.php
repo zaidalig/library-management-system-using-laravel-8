@@ -13,6 +13,15 @@
         <div class="row">
             <div class="col-md-12">
                 <div class="message"></div>
+                @if ($errors->any())
+                    <div class="alert alert-danger">
+                        <ul>
+                            @foreach ($errors->all() as $error)
+                                <li>{{ $error }}</li>
+                            @endforeach
+                        @endforeach
+                    </div>
+                @endif
                 <table class="content-table">
                     <thead>
                         <th>S.No</th>
@@ -65,9 +74,9 @@
                                                         data-dismiss="modal">Cancel</button>
                                                     <form action="{{ route('student.destroy', $student) }}" method="post"
                                                         class="form-hidden">
-                                                        <button type="submit" class="btn btn-danger">Delete</button>
                                                         @csrf
                                                         @method('DELETE')
+                                                        <button type="submit" class="btn btn-danger">Delete</button>
                                                     </form>
                                                 </div>
                                             </div>
@@ -96,16 +105,14 @@
 </div>
 <script src="{{ asset('js/jquery-3.6.0.min.js') }}"></script>
 <script type="text/javascript">
-    //Show student detail
+    // Show student detail
     $(".view-btn").on("click", function () {
         var student_id = $(this).data("sid");
         $.ajax({
             url: "/student/show/" + student_id,
             type: "GET",
             success: function (student) {
-                console.log(student);
                 var form = "<tr><td>Student Name :</td><td><b>" + student['name'] + "</b></td></tr><tr><td>Address :</td><td><b>" + student['address'] + "</b></td></tr><tr><td>Gender :</td><td><b>" + student['gender'] + "</b></td></tr><tr><td>Class :</td><td><b>" + student['class'] + "</b></td></tr><tr><td>Age :</td><td><b>" + student['age'] + "</b></td></tr><tr><td>Phone :</td><td><b>" + student['phone'] + "</b></td></tr><tr><td>Email :</td><td><b>" + student['email'] + "</b></td></tr>";
-                console.log(form);
 
                 $("#modal-form table").html(form);
                 $("#modal").show();
@@ -116,12 +123,12 @@
         });
     });
 
-    //Hide modal box
+    // Hide modal box
     $('#close-btn').on("click", function () {
         $("#modal").hide();
     });
 
-    //delete student script
+    // delete student script
     $(".delete-student").on("click", function () {
         var s_id = $(this).data("sid");
         $.ajax({

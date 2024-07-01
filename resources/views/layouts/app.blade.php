@@ -8,7 +8,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <link rel="stylesheet" href="{{ asset('css/bootstrap.css') }}"> <!-- Bootstrap -->
-    <link rel="stylesheet" href="{{ asset('css/style.css') }} "> <!-- Custom stlylesheet -->
+    <link rel="stylesheet" href="{{ asset('css/style.css') }} "> <!-- Custom stylesheet -->
 </head>
 
 <body>
@@ -29,7 +29,8 @@
                         </button>
                         <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
                             <a class="dropdown-item" href="{{ route('change_password') }}">Change Password</a>
-                            <a class="dropdown-item" href="#" onclick="document.getElementById('logoutForm').submit()">Log Out</a>
+                            <a class="dropdown-item" href="#"
+                                onclick="document.getElementById('logoutForm').submit()">Log Out</a>
                         </div>
                         <form method="post" id="logoutForm" action="{{ route('logout') }}">
                             @csrf
@@ -67,7 +68,8 @@
         <div class="container">
             <div class="row">
                 <div class="col-md-12">
-                    <span>© Copyright {{ now()->format("Y") }} <a href="https://github.com/zaidalig">Muhammad Zaid Ali 😎</a></span>
+                    <span>© Copyright {{ now()->format("Y") }} <a href="https://github.com/zaidalig">Muhammad Zaid Ali
+                            😎</a></span>
                 </div>
             </div>
         </div>

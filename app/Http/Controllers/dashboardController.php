@@ -11,24 +11,33 @@ use App\Models\publisher;
 use App\Models\student;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Exception;
 
 class dashboardController extends Controller
 {
     public function index()
     {
-        return view('dashboard', [
-            'authors' => auther::count(),
-            'publishers' => publisher::count(),
-            'categories' => category::count(),
-            'books' => book::count(),
-            'students' => student::count(),
-            'issued_books' => book_issue::count(),
-        ]);
+        try {
+            return view('dashboard', [
+                'authors' => auther::count(),
+                'publishers' => publisher::count(),
+                'categories' => category::count(),
+                'books' => book::count(),
+                'students' => student::count(),
+                'issued_books' => book_issue::count(),
+            ]);
+        } catch (Exception $e) {
+            return redirect()->back()->withErrors(['error' => 'An error occurred while fetching dashboard data.']);
+        }
     }
 
     public function change_password_view()
     {
-        return view('reset_password');
+        try {
+            return view('reset_password');
+        } catch (Exception $e) {
+            return redirect()->back()->withErrors(['error' => 'An error occurred while preparing to change the password.']);
+        }
     }
 
     public function change_password(Request $request)
@@ -38,14 +47,18 @@ class dashboardController extends Controller
             'password' => 'required|confirmed',
         ]);
 
-        $user = Auth::user();
+        try {
+            $user = Auth::user();
 
-        if (password_verify($request->c_password, $user->password)) {
-            $user->password = bcrypt($request->password);
-            $user->save();
-            return redirect()->route("dashboard")->with('success', 'Password changed successfully');
-        } else {
-            return redirect()->back()->withErrors(['c_password' => 'Old password is incorrect']);
+            if (password_verify($request->c_password, $user->password)) {
+                $user->password = bcrypt($request->password);
+                $user->save();
+                return redirect()->route("dashboard")->with('success', 'Password changed successfully');
+            } else {
+                return redirect()->back()->withErrors(['c_password' => 'Old password is incorrect']);
+            }
+        } catch (Exception $e) {
+            return redirect()->back()->withErrors(['error' => 'An error occurred while changing the password.']);
         }
     }
 }
