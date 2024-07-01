@@ -10,23 +10,32 @@
                 <a class="add-new" href="{{ route('student.create') }}">Add Student</a>
             </div>
         </div>
-         @if (session('success'))
+
+        @if (session('success'))
             <div class="alert alert-success">
                 {{ session('success') }}
             </div>
         @endif
+
+        @if (session('error'))
+            <div class="alert alert-danger">
+                {{ session('error') }}
+            </div>
+        @endif
+
+        @if ($errors->any())
+            <div class="alert alert-danger">
+                <ul>
+                    @foreach ($errors->all() as $error)
+                        <li>{{ $error }}</li>
+                    @endforeach
+                </ul>
+            </div>
+        @endif
+
         <div class="row">
             <div class="col-md-12">
                 <div class="message"></div>
-                @if ($errors->any())
-                    <div class="alert alert-danger">
-                        <ul>
-                            @foreach ($errors->all() as $error)
-                                <li>{{ $error }}</li>
-                            @endforeach
-                        @endforeach
-                    </div>
-                @endif
                 <table class="content-table">
                     <thead>
                         <th>S.No</th>
@@ -122,7 +131,7 @@
                 $("#modal-form table").html(form);
                 $("#modal").show();
             },
-            error: function(xhr, status, error) {
+            error: function (xhr, status, error) {
                 console.error("AJAX Error: ", status, error);
             }
         });
