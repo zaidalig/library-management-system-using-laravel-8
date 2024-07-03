@@ -7,7 +7,7 @@ use App\Models\book;
 use App\Models\student;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
-class BookIssueFactory extends Factory
+class book_issueFactory extends Factory
 {
     protected $model = book_issue::class;
 
